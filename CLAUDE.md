@@ -1,44 +1,49 @@
 # Universal ID Reader - AI Assistant Guide
 
 ## Project Overview
-This is a cross-platform application for reading and extracting data from credit card-sized identification documents (driver's licenses, passports) from multiple countries. The app runs on iOS, Android, macOS, and Windows with a focus on privacy and offline processing.
+This is a cross-platform C++ library for reading and extracting data from credit card-sized identification documents (driver's licenses, passports) from multiple countries. The library can be integrated into applications on iOS, Android, macOS, and Windows with a focus on privacy and offline processing.
 
 ## Technology Stack
-- **Framework**: Flutter with native plugins
+- **Core Language**: C++17 with C API bindings
 - **Computer Vision**: OpenCV for image preprocessing and document detection
 - **OCR**: Tesseract (open source) with cloud API fallback options
 - **Machine Learning**: TensorFlow Lite for document classification and field detection
+- **Build System**: CMake for cross-platform builds
 - **Platforms**: iOS, Android, macOS, Windows
 
 ## Key Architecture Layers
-1. Image Capture & Preprocessing - Camera integration and image enhancement
+1. Image Preprocessing - Image enhancement and document boundary detection
 2. Document Classification - ML-based document type and country detection
 3. Data Extraction - OCR processing with country-specific optimizations
 4. Data Validation & Parsing - Field validation and confidence scoring
-5. Security & Privacy - Local processing and data encryption
+5. C API Layer - Simple C interface for cross-platform integration
 
 ## Development Environment
-- Flutter SDK 3.0+
-- Xcode (for iOS/macOS development)
-- Android Studio (for Android development)
-- Visual Studio (for Windows development)
+- C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
+- CMake 3.15+
 - OpenCV 4.5+
 - Tesseract 5.0+
 - TensorFlow Lite 2.8+
+- Android NDK (for Android builds)
+- iOS toolchain (for iOS builds)
 
 ## Commands to Run
 ```bash
-# Install dependencies
-flutter pub get
+# Configure build
+mkdir build && cd build
+cmake ..
 
-# Run the app
-flutter run
+# Build the library
+make -j$(nproc)          # Linux/macOS
+cmake --build . --config Release  # Windows
 
-# Build for different platforms
-flutter build apk          # Android
-flutter build ios          # iOS
-flutter build macos        # macOS
-flutter build windows      # Windows
+# Install
+make install             # Linux/macOS
+cmake --install . --config Release  # Windows
+
+# Cross-platform builds
+cmake .. -DCMAKE_TOOLCHAIN_FILE=cmake/ios.toolchain.cmake -DPLATFORM=OS64  # iOS
+cmake .. -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a  # Android
 ```
 
 ## Privacy & Security Focus
@@ -53,8 +58,86 @@ flutter build windows      # Windows
 - Total processing time: < 5 seconds
 - Accuracy target: > 95% for standard documents
 
+## Library Structure
+
+```
+id_reader/
+├── src/                              # C++ source code
+│   ├── core/                         # Core utilities and memory management
+│   ├── preprocessing/                # Image preprocessing and enhancement
+│   ├── classification/               # Document type and country detection
+│   ├── extraction/                   # OCR, MRZ, and barcode reading
+│   ├── validation/                   # Field validation and confidence scoring
+│   └── api/                          # C API implementation
+├── include/id_reader/                # Public C headers
+│   └── id_reader.h                   # Main API header
+├── tests/                            # Unit and integration tests
+├── examples/                         # Example applications
+│   ├── c/                            # C examples
+│   └── cpp/                          # C++ examples
+├── cmake/                            # CMake modules and toolchains
+└── docs/                             # Documentation and API reference
+```
+
+## C API Overview
+
+The library provides a simple C API for cross-platform integration:
+
+```c
+// Initialize library
+id_reader_context_t* context;
+id_reader_init(&context);
+
+// Configure settings
+id_reader_set_config(context, "country", "US");
+id_reader_set_config(context, "document_type", "drivers_license");
+
+// Process image
+id_reader_image_t image = { /* image data */ };
+id_reader_result_t* result;
+id_reader_process_image(context, &image, &result);
+
+// Access results
+printf("Document Type: %s\n", id_reader_document_type_string(result->document_type));
+for (size_t i = 0; i < result->field_count; i++) {
+    printf("%s: %s\n", result->fields[i].name, result->fields[i].value);
+}
+
+// Cleanup
+id_reader_free_result(result);
+id_reader_cleanup(context);
+```
+
+## Integration Notes
+
+- **iOS**: Use the C API directly or create Swift wrapper classes
+- **Android**: Use JNI to call the C API from Kotlin/Java
+- **Windows**: Use P/Invoke to call the C API from C#
+- **macOS**: Use the C API directly or create Swift/Objective-C wrappers
+- **Web**: Use WebAssembly compilation for browser integration
+
+## Build Commands
+
+```bash
+# Standard build
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+
+# iOS build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=cmake/ios.toolchain.cmake -DPLATFORM=OS64
+
+# Android build  
+cmake .. -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake \
+         -DANDROID_ABI=arm64-v8a -DANDROID_PLATFORM=android-21
+
+# Windows build
+cmake .. -G "Visual Studio 16 2019" -A x64
+cmake --build . --config Release
+```
+
 ## Current Status
-The project is in the planning phase. See TODO.md for the complete 10-phase development roadmap covering foundation, computer vision, ML classification, OCR, data processing, security, UI/UX, optimization, testing, and deployment.
+The project is in the planning phase. See TODO.md for the complete 10-phase development roadmap covering foundation, computer vision, ML classification, OCR, data processing, security, API design, optimization, testing, and deployment.
 
 ## Target Countries (Initial Release)
 - United States (Driver's License, Passport)

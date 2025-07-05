@@ -1,34 +1,35 @@
 # Universal ID Reader
 
-A cross-platform application for reading and extracting data from credit card-sized identification documents including driver's licenses and passports from multiple countries.
+A cross-platform C++ library for reading and extracting data from credit card-sized identification documents including driver's licenses and passports from multiple countries.
 
 ## Project Overview
 
-This application will run on iOS, Android, macOS, and Windows, providing real-time ID document scanning and data extraction capabilities with a focus on privacy and offline processing.
+This C++ library provides real-time ID document scanning and data extraction capabilities with a focus on privacy and offline processing. The library can be integrated into applications on iOS, Android, macOS, and Windows platforms.
 
 ## Architecture
 
 ### Core Technology Stack
+- **Core Language**: C++17 with C API bindings
 - **Computer Vision**: OpenCV for image preprocessing and document detection
 - **OCR Engine**: Tesseract (open source) with cloud API fallback options
 - **Machine Learning**: TensorFlow Lite for document classification and field detection
-- **Cross-platform Framework**: Flutter with native plugins for camera and ML integration
+- **Build System**: CMake for cross-platform builds
 
 ### System Layers
-1. **Image Capture & Preprocessing** - Camera integration and image enhancement
+1. **Image Preprocessing** - Image enhancement and document boundary detection
 2. **Document Classification** - ML-based document type and country detection
 3. **Data Extraction** - OCR processing with country-specific optimizations
 4. **Data Validation & Parsing** - Field validation and confidence scoring
-5. **Security & Privacy** - Local processing and data encryption
+5. **C API Layer** - Simple C interface for cross-platform integration
 
 ## Development Roadmap
 
 ### Phase 1: Foundation & Research
-- [ ] Set up cross-platform development environment (Flutter + native tooling)
+- [ ] Set up cross-platform C++ development environment (CMake + toolchains)
 - [ ] Research ID document formats for target countries
 - [ ] Collect sample images for training and testing
 - [ ] Set up OpenCV and Tesseract integration
-- [ ] Create basic camera capture functionality
+- [ ] Create C API interface design
 
 ### Phase 2: Core Computer Vision
 - [ ] Implement document boundary detection
@@ -65,19 +66,19 @@ This application will run on iOS, Android, macOS, and Windows, providing real-ti
 - [ ] Implement privacy compliance features (GDPR, CCPA)
 - [ ] Add audit logging for data processing
 
-### Phase 7: User Interface and Experience
-- [ ] Design intuitive camera interface with guidance
-- [ ] Create real-time feedback system for image quality
-- [ ] Build results display and editing interface
-- [ ] Add settings and configuration options
-- [ ] Implement accessibility features
+### Phase 7: API Design and Integration
+- [ ] Design comprehensive C API interface
+- [ ] Create language bindings (Swift, Kotlin, C#, JavaScript)
+- [ ] Build example applications for each platform
+- [ ] Add configuration and settings management
+- [ ] Implement callback-based processing for real-time feedback
 
 ### Phase 8: Platform Optimization
-- [ ] Optimize performance for mobile devices
-- [ ] Add platform-specific ML acceleration (Core ML for iOS, ML Kit for Android)
+- [ ] Optimize performance for target platforms
+- [ ] Add platform-specific ML acceleration (Core ML for macOS/iOS, DirectML for Windows, NNAPI for Android)
 - [ ] Implement efficient memory management
-- [ ] Add offline capability indicators
-- [ ] Create platform-specific UI adaptations
+- [ ] Add GPU acceleration support (OpenCL/CUDA)
+- [ ] Create platform-specific build optimizations
 
 ### Phase 9: Testing and Validation
 - [ ] Create comprehensive test suite with real document samples
@@ -88,10 +89,10 @@ This application will run on iOS, Android, macOS, and Windows, providing real-ti
 
 ### Phase 10: Deployment and Distribution
 - [ ] Set up CI/CD pipeline for all platforms
-- [ ] Create app store listings and compliance documentation
+- [ ] Create library packaging for distribution (CMake, pkg-config, vcpkg, CocoaPods)
 - [ ] Implement crash reporting and analytics
-- [ ] Add update mechanisms
-- [ ] Create documentation and support materials
+- [ ] Add library versioning and ABI stability
+- [ ] Create comprehensive documentation and API reference
 
 ## Target Countries (Initial Release)
 - [ ] United States (Driver's License, Passport)
@@ -103,18 +104,18 @@ This application will run on iOS, Android, macOS, and Windows, providing real-ti
 ## Technical Requirements
 
 ### Development Environment
-- Flutter SDK 3.0+
-- Xcode (for iOS/macOS development)
-- Android Studio (for Android development)
-- Visual Studio (for Windows development)
+- C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
+- CMake 3.15+
 - OpenCV 4.5+
 - Tesseract 5.0+
 - TensorFlow Lite 2.8+
+- Android NDK (for Android builds)
+- iOS toolchain (for iOS builds)
 
 ### Hardware Requirements
-- Camera with auto-focus capability
-- Minimum 2GB RAM for mobile devices
-- GPU acceleration support preferred
+- Minimum 2GB RAM
+- GPU acceleration support preferred (OpenCL/CUDA for processing acceleration)
+- Camera integration handled by host application
 
 ## Privacy and Security Considerations
 - All processing performed locally on device
@@ -133,10 +134,11 @@ This application will run on iOS, Android, macOS, and Windows, providing real-ti
 ## Getting Started
 
 1. Clone this repository
-2. Install Flutter and required dependencies
-3. Set up native development environments for target platforms
-4. Run `flutter pub get` to install dependencies
-5. Follow platform-specific setup instructions in `/docs`
+2. Install CMake and required dependencies
+3. Set up C++ development environment for target platforms
+4. Run `mkdir build && cd build && cmake ..` to configure
+5. Build with `make` or `cmake --build .`
+6. Follow platform-specific setup instructions in `/docs`
 
 ## Contributing
 
