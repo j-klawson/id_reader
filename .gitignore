@@ -1,78 +1,252 @@
-# Python bytecode
-__pycache__/
-*.py[cod]
-*.pyo
+# Build directories
+build/
+cmake-build-*/
+out/
 
-# Django stuff
-*.log
-db.sqlite3
-db.sqlite3-journal
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
 
-# Environment files
-.env
-.env.*
+# Precompiled Headers
+*.gch
+*.pch
 
-# Migrations
-**/migrations/*.py
-!**/migrations/__init__.py
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
 
-# Media and static files
-/media/
-staticfiles/
-static/
+# Fortran module files
+*.mod
+*.smod
 
-# Node modules (if using for frontend or build tools)
-node_modules/
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
 
-# VS Code settings
+# Executables
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+Testing
+Makefile
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps
+
+# Visual Studio
+.vs/
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.sln
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
 .vscode/
+*.code-workspace
 
-# MacOS metadata files
-.DS_Store
+# Xcode
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.dSYM.zip
+*.dSYM
 
-# Virtual environment
-venv/
-env/
-
-# IDE files
+# Android Studio
+.gradle/
 .idea/
 *.iml
+local.properties
+proguard/
 
-# Pytest and coverage
-.pytest_cache/
-*.cover
-*.coverage
-htmlcov/
+# Qt Creator
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+*.moc.cpp
+*.qm
+*.prl
+*.qrc.cpp
+*.qrc.deps
+moc_*.cpp
+qrc_*.cpp
+ui_*.h
+Makefile*
+*build-*
 
-# Pipenv/Poetry
-Pipfile
-Pipfile.lock
-poetry.lock
+# CLion
+.idea/
+cmake-build-*/
 
-# Docker
-*.pid
-*.seed
-*.pid.lock
-build/
-*.tar
-.dockerignore
+# Code::Blocks
+*.depend
+*.layout
+*.cbp
 
-# Secrets
-*.pem
-*.key
-*.crt
+# Conan
+conanfile.txt
+conanfile.py
+conandata.yml
+conanbuildinfo.cmake
+conanbuildinfo.txt
+conanbuildinfo.py
+conaninfo.txt
+graph_info.json
 
-# Deployment-related
-*.bak
-*.swp
-*.orig
-*.rej
+# vcpkg
+vcpkg_installed/
+.vcpkg-root
 
-# Backup files
-*.bak
+# Package managers
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Test results
+test_results.xml
+*.gcov
+*.gcda
+*.gcno
+
+# Coverage reports
+coverage/
+*.info
+
+# Profiling data
+*.prof
+
+# Logs
+*.log
+
+# Temporary files
 *.tmp
+*.temp
 *.swp
 *.swo
-*.old
-*.save
+*~
 
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ID document samples - NEVER commit real identification documents
+id_samples/
+./id_samples/
+samples/
+test_images/
+training_data/
+*.jpg
+*.jpeg
+*.png
+*.tiff
+*.bmp
+*.gif
+*.webp
+*.svg
+
+# Model files - Large ML models should not be in git
+*.tflite
+*.onnx
+*.pb
+*.h5
+*.keras
+*.pt
+*.pth
+*.caffemodel
+*.prototxt
+*.mlmodel
+
+# Configuration files with sensitive data
+config.ini
+.env
+.env.local
+.env.production
+secrets.json
+credentials.json
+
+# Documentation build
+docs/build/
+docs/_build/
+site/
+
+# Python (if using Python tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Node.js (if using Node.js tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn-integrity
+
+# Rust (if using Rust components)
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Go (if using Go components)
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.work
+
+# Local development files
+.local/
+.cache/
+.tmp/
+
+# IDE specific files
+*.sublime-project
+*.sublime-workspace
+.idea/
+.vscode/settings.json
+.vscode/launch.json
+.vscode/extensions.json
+
+# Backup files
+*.backup
+*.bak
+*.old
+*~
