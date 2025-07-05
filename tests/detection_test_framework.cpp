@@ -11,10 +11,11 @@
 #include <iostream>
 #include <string>
 #include <vector>
-#include <filesystem>
 #include <chrono>
 #include <fstream>
 #include <iomanip>
+#include <dirent.h>
+#include <sys/stat.h>
 
 struct TestResult {
     std::string image_name;
@@ -67,7 +68,9 @@ public:
     std::vector<TestResult> runTestSuite(const std::string& test_dir) {
         std::vector<TestResult> results;
         
-        if (!std::filesystem::exists(test_dir)) {
+        // Check if directory exists
+        DIR* dir = opendir(test_dir.c_str());
+        if (!dir) {
             std::cerr << "Test directory does not exist: " << test_dir << std::endl;
             return results;
         }
@@ -75,15 +78,23 @@ public:
         std::cout << "Running test suite on directory: " << test_dir << std::endl;
         
         // Process all images in the directory
-        for (const auto& entry : std::filesystem::directory_iterator(test_dir)) {
-            if (entry.is_regular_file()) {
-                std::string filename = entry.path().filename().string();
-                std::string extension = entry.path().extension().string();
+        struct dirent* entry;
+        while ((entry = readdir(dir)) != nullptr) {
+            if (entry->d_type == DT_REG) { // Regular file
+                std::string filename = entry->d_name;
+                std::string extension = "";
+                
+                // Extract file extension
+                size_t dot_pos = filename.find_last_of('.');
+                if (dot_pos != std::string::npos) {
+                    extension = filename.substr(dot_pos);
+                }
                 
                 // Check if it's an image file
                 if (extension == ".jpg" || extension == ".jpeg" || extension == ".png" || 
                     extension == ".bmp" || extension == ".tiff") {
-                    TestResult result = testSingleImage(entry.path().string(), filename);
+                    std::string full_path = test_dir + "/" + filename;
+                    TestResult result = testSingleImage(full_path, filename);
                     results.push_back(result);
                     
                     // Print progress
@@ -95,6 +106,7 @@ public:
             }
         }
         
+        closedir(dir);
         return results;
     }
     
