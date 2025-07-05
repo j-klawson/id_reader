@@ -1,0 +1,78 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Django stuff
+*.log
+db.sqlite3
+db.sqlite3-journal
+
+# Environment files
+.env
+.env.*
+
+# Migrations
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Media and static files
+/media/
+staticfiles/
+static/
+
+# Node modules (if using for frontend or build tools)
+node_modules/
+
+# VS Code settings
+.vscode/
+
+# MacOS metadata files
+.DS_Store
+
+# Virtual environment
+venv/
+env/
+
+# IDE files
+.idea/
+*.iml
+
+# Pytest and coverage
+.pytest_cache/
+*.cover
+*.coverage
+htmlcov/
+
+# Pipenv/Poetry
+Pipfile
+Pipfile.lock
+poetry.lock
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+build/
+*.tar
+.dockerignore
+
+# Secrets
+*.pem
+*.key
+*.crt
+
+# Deployment-related
+*.bak
+*.swp
+*.orig
+*.rej
+
+# Backup files
+*.bak
+*.tmp
+*.swp
+*.swo
+*.old
+*.save
+
