@@ -159,7 +159,8 @@ sudo make uninstall
 
 ### Testing the Build
 
-Run the example application:
+#### Quick Validation
+Run the example applications:
 ```bash
 # After building with Make
 ./build/document_detector_example path/to/your/image.jpg
@@ -167,6 +168,30 @@ Run the example application:
 # Or the C example
 ./build/simple_detection_c path/to/your/image.bmp
 ```
+
+#### Comprehensive Testing
+Run the synthetic test suite to validate detection performance:
+```bash
+cd tests
+make run-tests
+```
+
+This will:
+- Generate synthetic test images (Canadian ID cards, driver's licenses, passports)
+- Test detection across various challenging conditions
+- Provide performance statistics and visual results
+- Export detailed CSV analysis
+
+**Quick Test**: For faster validation during development:
+```bash
+cd tests
+make quick-test
+```
+
+**Expected Results**:
+- Success Rate: >85% for standard document conditions
+- Processing Time: <100ms per image
+- Confidence Scores: >0.8 for successful detections
 
 ### Troubleshooting
 
@@ -279,7 +304,37 @@ The library provides a C API that can be easily bound to other languages:
 
 ## Development Status
 
-This project is currently in the planning and foundation phase. See [TODO.md](TODO.md) for the complete development roadmap covering all 10 phases from foundation through deployment.
+**Current Implementation**:
+- ✅ OpenCV-based document boundary detection
+- ✅ C++ core library with C API
+- ✅ Cross-platform build system (Make/CMake)
+- ✅ Comprehensive testing framework with synthetic data
+- ✅ Example applications (C and C++)
+
+**Next Steps**:
+- 🔄 Document classification (ML-based type detection)
+- 🔄 OCR integration (Tesseract)
+- 🔄 Field extraction and validation
+
+See [TODO.md](TODO.md) for the complete development roadmap covering all 10 phases from foundation through deployment.
+
+## Testing and Validation
+
+The project includes a comprehensive testing framework using synthetic data:
+
+**Test Suite Features**:
+- Synthetic document generation (no real ID data)
+- Canadian document specifications (ID cards, driver's licenses, passports)
+- Performance benchmarking and validation
+- Visual result generation
+- Automated success rate analysis
+
+**Run Tests**:
+```bash
+cd tests && make run-tests
+```
+
+**Test Results**: Located in `tests/test_results/` with CSV data and visual outputs.
 
 ## Integration Examples
 
