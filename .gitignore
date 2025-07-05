@@ -157,9 +157,6 @@ ehthumbs.db
 Thumbs.db
 
 # ID document samples - NEVER commit real identification documents
-id_samples/
-./id_samples/
-samples/
 test_images/
 training_data/
 *.jpg
