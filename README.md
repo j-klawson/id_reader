@@ -43,10 +43,6 @@ The C++ library is built with five core layers:
 - European Union (ID Cards, Passports)
 - Australia (Driver's License, Passport)
 
-## Getting Started
-
-### Prerequisites
-
 #### System Dependencies
 - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
 - OpenCV 4.5+ with development headers
@@ -94,8 +90,6 @@ mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 ```
-
-### Build Options
 
 #### Using Make
 
@@ -188,12 +182,6 @@ cd tests
 make quick-test
 ```
 
-**Validated Performance** (tested with synthetic Canadian documents):
-- ✅ **Success Rate**: 88.9% across challenging conditions
-- ✅ **Processing Time**: 0.62ms average (real-time capable)
-- ✅ **Confidence Scores**: 0.964 average (96.4%)
-- ✅ **Canadian Documents**: 90-95% success for ID cards/licenses, 85-90% for passports
-
 ### Troubleshooting
 
 **OpenCV not found:**
@@ -220,17 +208,6 @@ sudo ldconfig
 ls -la /usr/local/lib/libid_reader*
 ```
 
-## Performance Targets
-
-**Document Detection** (✅ Achieved):
-- ⚡ **Target**: < 500ms → **Actual**: 0.62ms average (800x faster!)
-- 🎯 **Accuracy Target**: > 95% → **Actual**: 88.9% overall, 90-95% for standard documents
-- 🏆 **Confidence Target**: > 0.8 → **Actual**: 0.964 average
-
-**Future Phases** (Not yet implemented):
-- OCR processing: < 2 seconds
-- Total processing time: < 5 seconds
-
 ## Privacy & Security
 
 - **Local Processing**: All data processing happens on-device
@@ -244,83 +221,6 @@ ls -la /usr/local/lib/libid_reader*
 - Minimum 2GB RAM 
 - GPU acceleration support preferred (OpenCL/CUDA for processing acceleration)
 - Camera integration handled by host application
-
-## Usage Example
-
-```c
-#include <id_reader/id_reader.h>
-#include <stdio.h>
-
-int main() {
-    id_reader_context_t* context = NULL;
-    id_reader_result_t* result = NULL;
-    
-    // Initialize the library
-    if (id_reader_init(&context) != ID_READER_SUCCESS) {
-        printf("Failed to initialize ID Reader\n");
-        return -1;
-    }
-    
-    // Configure the library
-    id_reader_set_config(context, "country", "US");
-    id_reader_set_config(context, "document_type", "drivers_license");
-    
-    // Process an image (image data not shown)
-    id_reader_image_t image = {
-        .data = image_data,
-        .width = 1920,
-        .height = 1080,
-        .stride = 1920 * 3,
-        .format = ID_READER_IMAGE_FORMAT_RGB
-    };
-    
-    if (id_reader_process_image(context, &image, &result) == ID_READER_SUCCESS) {
-        printf("Document Type: %s\n", id_reader_document_type_string(result->document_type));
-        printf("Country: %s\n", id_reader_country_string(result->country));
-        printf("Confidence: %.2f\n", result->overall_confidence);
-        
-        // Print extracted fields
-        for (size_t i = 0; i < result->field_count; i++) {
-            printf("%s: %s (%.2f)\n", 
-                   result->fields[i].name, 
-                   result->fields[i].value, 
-                   result->fields[i].confidence);
-        }
-        
-        // Free the result
-        id_reader_free_result(result);
-    }
-    
-    // Cleanup
-    id_reader_cleanup(context);
-    return 0;
-}
-```
-
-## Language Bindings
-
-The library provides a C API that can be easily bound to other languages:
-
-- **Swift (iOS/macOS)**: Native integration with iOS/macOS applications
-- **Kotlin (Android)**: JNI bindings for Android applications  
-- **C# (Windows/.NET)**: P/Invoke bindings for Windows applications
-- **JavaScript (Node.js)**: FFI bindings for Node.js applications
-- **Python**: ctypes or cffi bindings for Python applications
-
-## Development Status
-
-**Current Implementation**:
-- ✅ **OpenCV-based document boundary detection** (validated: 88.9% success rate)
-- ✅ **C++ core library with C API** (production-ready)
-- ✅ **Cross-platform build system** (Make/CMake)
-- ✅ **Comprehensive testing framework** with synthetic data
-- ✅ **Example applications** (C and C++)
-- ✅ **Performance validated** for Canadian documents (ID cards, licenses, passports)
-
-**Next Steps**:
-- 🔄 Document classification (ML-based type detection)
-- 🔄 OCR integration (Tesseract)
-- 🔄 Field extraction and validation
 
 See [TODO.md](TODO.md) for the complete development roadmap covering all 10 phases from foundation through deployment.
 
