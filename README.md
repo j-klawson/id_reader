@@ -37,8 +37,8 @@ The C++ library is built with five core layers:
 ## Supported Documents
 
 ### Initial Release Target Countries
-- United States (Driver's License, Passport)
 - Canada (Driver's License, Passport)
+- United States (Driver's License, Passport)
 - United Kingdom (Driver's License, Passport)
 - European Union (ID Cards, Passports)
 - Australia (Driver's License, Passport)
@@ -47,14 +47,33 @@ The C++ library is built with five core layers:
 
 ### Prerequisites
 
+#### System Dependencies
 - C++17 compatible compiler (GCC 7+, Clang 5+, MSVC 2017+)
-- CMake 3.15+
-- OpenCV 4.5+
-- Tesseract 5.0+
-- TensorFlow Lite 2.8+
+- OpenCV 4.5+ with development headers
 - pkg-config (Linux/macOS)
+- Make or CMake 3.15+
 
-### Installation
+#### Installing OpenCV
+
+**Ubuntu/Debian:**
+```bash
+sudo apt update
+sudo apt install libopencv-dev pkg-config build-essential
+```
+
+**macOS (Homebrew):**
+```bash
+brew install opencv pkg-config
+```
+
+**Windows:**
+Download OpenCV from https://opencv.org/releases/ and set environment variables.
+
+#### Optional Dependencies
+- Tesseract 5.0+ (for OCR - future implementation)
+- TensorFlow Lite 2.8+ (for ML classification - future implementation)
+
+### Quick Start Build
 
 1. Clone this repository:
 ```bash
@@ -62,39 +81,56 @@ git clone https://github.com/j-klawson/id_reader.git
 cd id_reader
 ```
 
-2. Create build directory and configure:
+2. Build using Make (recommended for development):
 ```bash
-mkdir build
-cd build
-cmake ..
+make                    # Build shared and static libraries
+make examples          # Build example applications
+make test              # Run tests (if available)
 ```
 
-3. Build the library:
+3. Or build using CMake:
 ```bash
-make -j$(nproc)  # Linux/macOS
-# or
-cmake --build . --config Release  # Windows
+mkdir build && cd build
+cmake .. -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
 ```
 
-4. Install the library:
+### Build Options
+
+#### Using Make
+
 ```bash
-make install  # Linux/macOS
-# or
-cmake --install . --config Release  # Windows
+# Debug build
+make BUILD_TYPE=Debug
+
+# Release build (default)
+make BUILD_TYPE=Release
+
+# Use different compiler
+make CXX=clang++
+
+# Build specific targets
+make all               # Build libraries
+make examples          # Build examples
+make tests             # Build test suite
+make install           # Install to system
+make clean             # Clean build artifacts
 ```
 
-### Building for Different Platforms
+#### Using CMake
 
 ```bash
-# Linux
+# Linux/macOS
+mkdir build && cd build
 cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 
-# macOS
+# macOS (Universal Binary)
 cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64"
 make -j$(nproc)
 
 # Windows (Visual Studio)
+mkdir build && cd build
 cmake .. -G "Visual Studio 16 2019" -A x64
 cmake --build . --config Release
 
@@ -105,6 +141,57 @@ make -j$(nproc)
 # Cross-compile for Android
 cmake .. -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK/build/cmake/android.toolchain.cmake -DANDROID_ABI=arm64-v8a
 make -j$(nproc)
+```
+
+### Installation
+
+Install to system directories:
+```bash
+sudo make install      # Using Make
+# or
+sudo make install      # Using CMake from build directory
+```
+
+Uninstall:
+```bash
+sudo make uninstall
+```
+
+### Testing the Build
+
+Run the example application:
+```bash
+# After building with Make
+./build/document_detector_example path/to/your/image.jpg
+
+# Or the C example
+./build/simple_detection_c path/to/your/image.bmp
+```
+
+### Troubleshooting
+
+**OpenCV not found:**
+```bash
+# Check OpenCV installation
+pkg-config --modversion opencv4
+# or
+pkg-config --modversion opencv
+
+# Set PKG_CONFIG_PATH if needed
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig:$PKG_CONFIG_PATH
+```
+
+**Compiler errors:**
+- Ensure C++17 support: `g++ --version` (GCC 7+) or `clang++ --version` (Clang 5+)
+- Update compiler: `sudo apt install g++-9` (Ubuntu) or `brew install llvm` (macOS)
+
+**Library linking issues:**
+```bash
+# Update library cache (Linux)
+sudo ldconfig
+
+# Check library installation
+ls -la /usr/local/lib/libid_reader*
 ```
 
 ## Performance Targets
